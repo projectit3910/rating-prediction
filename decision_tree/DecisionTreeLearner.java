@@ -1,3 +1,5 @@
+import java.util.List;
+
 public class DecisionTreeLearner {
     private Tree<Data> decisionTree;
     private List<Data> examples;

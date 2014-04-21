@@ -1,10 +1,17 @@
 public class Data {
-    private Genre genre;
-    private Gender gender;
-    private Age age;
-    private Occupation occupation;
-    private Rating rating;
+    public Genre genre;
+    public Gender gender;
+    public Age age;
+    public Occupation occupation;
+    public Rating rating;
     
-    public Data() {
+    public Data(Genre genre, Gender gender, Age age, Occupation occupation,
+        Rating rating) {
+    
+        this.genre = genre;
+        this.gender = gender;
+        this.age = age;
+        this.occupation = occupation;
+        this.rating = rating;
     }
 }

@@ -1,0 +1,23 @@
+public enum Occupation implements Attribute {
+    OTHER,
+    ACADEMIC,
+    ARTIST,
+    ADMINISTRATOR,
+    COLLEGE_STUDENT,
+    CUSTOMER_SERVICE,
+    HEALTH_CARE,
+    EXECUTIVE,
+    FARMER,
+    HOMEMAKER,
+    K12_STUDENT,
+    LAWYER,
+    PROGRAMMER,
+    RETIRED,
+    MARKETING,
+    SCIENTIST,
+    SELF_EMPLOYED,
+    ENGINEER,
+    TRADESMAN,
+    UNEMPLOYED,
+    WRITER
+}

@@ -1,0 +1,4 @@
+RatingPrediction.java contains the main method.
+
+Compile with: javac RatingPrediction.java
+Run with: java RatingPrediction < data_set/data
