@@ -61,9 +61,34 @@ public class DecisionTreeLearner {
         return null;
     }
     
+    private Rating[] ratings = Rating.values();
+    private int[] ratingPluralities = new int[ratings.length];
+    
     // Return the most common classification
     private Node pluralityValue(List<Data> examples) {
-        return null;
+    
+        // Initialize array to all zeros
+        for (int i = 0; i < ratingPluralities.length; i++) {
+            ratingPluralities[i] = 0;
+        }
+        
+        // Count the number of occurences of each rating
+        for (Data example : examples) {
+            ratingPluralities[example.rating.ordinal()] += 1;
+        }
+        
+        // Find the maximum
+        int max = 0;
+        int maxi = 0;
+        for (int i = 0; i < ratingPluralities.length; i++) {
+            if (ratingPluralities[i] > max) {
+                max = ratingPluralities[i];
+                maxi = i;
+            }
+        }
+        
+        // Return a new rating node
+        return new Node(ratings[maxi]);
     }
     
     // Calculate information gain for an attribute
