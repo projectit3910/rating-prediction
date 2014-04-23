@@ -4,7 +4,7 @@ import java.util.HashMap;
 public class Node {
 
     public Attribute attribute;
-    private Node[] children;
+    public Node[] children;
     
     public Node(Attribute attribute) {
         this.attribute = attribute;

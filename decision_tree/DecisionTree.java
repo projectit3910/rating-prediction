@@ -26,6 +26,26 @@ public class DecisionTree {
         return current.classification;
     }
     
+    public void printTree() {
+        printTree(tree, 0);
+    }
+    
+    private void printTree(Node root, int level) {
+        if (root.isClassification()) {
+            System.out.println(root.classification);
+            return;
+        }
+        System.out.println(root.attribute);
+        for (int i = 0; i < root.children.length; i++) {
+            for (int j = 0; j < level + 1; j++) {
+                System.out.print("  ");
+            }
+            System.out.print(root.attribute.values[i]);
+            System.out.print("->");
+            printTree(root.children[i], level + 1);
+        }
+    }
+    
     private Node decisionTreeLearning(
         List<Data> examples,
         List<Attribute> attributes,
@@ -67,7 +87,9 @@ public class DecisionTree {
             }
         }
         
-        attributes.remove(best);
+        List<Attribute> reducedAttributes =
+            new ArrayList<Attribute>(attributes);
+        reducedAttributes.remove(best);
         Node root = new Node(best);
         
         for (Attributable value : best.values) {
@@ -78,7 +100,7 @@ public class DecisionTree {
                 }
             }
             Node child = decisionTreeLearning(
-                splitExamples, attributes, examples);
+                splitExamples, reducedAttributes, examples);
             root.addChild(child, value);
         }
         
