@@ -3,23 +3,29 @@ import java.util.HashMap;
 
 public class Node {
 
-    private AttributeType type;
-    private Map<Attribute, Node> children;
+    public Attribute attribute;
+    private Node[] children;
     
-    // Only used for rating nodes (classifications)
-    private Rating classification;
-
-    public Node(AttributeType type) {
-        this.type = type;
-        children = new HashMap<Attribute, Node>();
+    public Node(Attribute attribute) {
+        this.attribute = attribute;
+        children = new Node[attribute.values.length];
     }
     
-    public Node(Rating rating) {
-        type = AttributeType.RATING;
-        classification = rating;
+    public Rating classification = null;
+    
+    public Node(Rating classification) {
+        this.classification = classification;
     }
     
-    public void addChild(Node node, Attribute value) {
-        children.put(value, node);
+    public boolean isClassification() {
+        return classification != null;
+    }
+    
+    public void addChild(Node node, Attributable value) {
+        children[value.ordinal()] = node;
+    }
+    
+    public Node getChild(Attributable value) {
+        return children[value.ordinal()];
     }
 }

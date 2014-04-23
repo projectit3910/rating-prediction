@@ -1,4 +1,4 @@
-public enum Age implements Attribute {
+public enum Age implements Attributable {
     _1_17,
     _18_24,
     _25_34,

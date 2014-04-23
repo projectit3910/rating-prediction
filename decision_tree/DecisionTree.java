@@ -1,25 +1,34 @@
 import java.util.List;
 import java.util.ArrayList;
 
-public class DecisionTreeLearner {
+public class DecisionTree {
     private List<Data> examples;
+    private Node tree;
 
-    public DecisionTreeLearner(List<Data> examples) {
+    public DecisionTree(List<Data> examples) {
         this.examples = examples;
     }
     
-    public Node learn() {
-        List<AttributeType> attributes = new ArrayList<AttributeType>();
-        for (AttributeType type : AttributeType.values()) {
-            attributes.add(type);
+    public void learn() {
+        List<Attribute> attributes = new ArrayList<Attribute>();
+        for (Attribute attribute : Attribute.values()) {
+            attributes.add(attribute);
         }
-        attributes.remove(AttributeType.RATING);
-        return decisionTreeLearning(examples, attributes, null);
+        tree = decisionTreeLearning(examples, attributes, null);
+    }
+    
+    public Rating predict(Data data) {
+        Node current = tree;
+        while (!current.isClassification()) {
+            Attributable value = data.attributes[current.attribute.ordinal()];
+            current = current.getChild(value);
+        }
+        return current.classification;
     }
     
     private Node decisionTreeLearning(
         List<Data> examples,
-        List<AttributeType> attributes,
+        List<Attribute> attributes,
         List<Data> parentExamples) {
         
         // Base case 1
@@ -48,17 +57,32 @@ public class DecisionTreeLearner {
         }
         
         // Find attribute with the highest importance
-        AttributeType bestAttribute;
+        Attribute best = attributes.get(0);
         double max = 0;
-        for (AttributeType attribute : attributes) {
+        for (Attribute attribute : attributes) {
             double i = importance(attribute, examples);
             if (i > max) {
                 max = i;
-                bestAttribute = attribute;
+                best = attribute;
             }
         }
         
-        return null;
+        attributes.remove(best);
+        Node root = new Node(best);
+        
+        for (Attributable value : best.values) {
+            List<Data> splitExamples = new ArrayList<Data>();
+            for (Data example : examples) {
+                if (example.attributes[best.ordinal()] == value) {
+                    splitExamples.add(example);
+                }
+            }
+            Node child = decisionTreeLearning(
+                splitExamples, attributes, examples);
+            root.addChild(child, value);
+        }
+        
+        return root;
     }
     
     private Rating[] ratings = Rating.values();
@@ -92,7 +116,7 @@ public class DecisionTreeLearner {
     }
     
     // Calculate information gain for an attribute
-    private double importance(AttributeType attribute, List<Data> examples) {
+    private double importance(Attribute attribute, List<Data> examples) {
         return 0;
     }
 }

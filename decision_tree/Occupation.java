@@ -1,4 +1,4 @@
-public enum Occupation implements Attribute {
+public enum Occupation implements Attributable {
     OTHER,
     ACADEMIC,
     ARTIST,

@@ -1,4 +1,4 @@
-public enum Genre implements Attribute {
+public enum Genre implements Attributable {
     ACTION,
     ADVENTURE,
     ANIMATION,

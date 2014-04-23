@@ -3,18 +3,31 @@ import java.lang.System;
 import java.util.List;
 
 public class RatingPrediction {
-    // Entry point
     public static void main(String[] args) throws Exception {
         Parser parser = new Parser(new InputStreamReader(System.in));
-        List<Data> examples = parser.run();
+        List<Data> trainingExamples = parser.run(1500000);
+        List<Data> testingExamples = parser.run(500000);
+        DecisionTree dt = new DecisionTree(trainingExamples);
+        dt.learn();
         
-        for (Data example : examples) {
-            System.out.println(
-                example.genre + " " +
-                example.gender + " " +
-                example.age + " " +
-                example.occupation + " " +
-                example.rating);
+        int total = 500000;
+        int correct = 0;
+        int close = 0;
+        for (int i = 0; i < total; i++) {
+            Data example = testingExamples.get(i);
+            Rating prediction = dt.predict(example);
+            if (example.rating == prediction) {
+                correct++;
+            }
+            if (example.rating.ordinal() == prediction.ordinal() + 1 ||
+                example.rating.ordinal() == prediction.ordinal() - 1) {
+                close++;
+            }
         }
+        
+        System.out.print("Correct (+-0): ");
+        System.out.println((double)correct / (double)total);
+        System.out.print("Close (+-1): ");
+        System.out.println(((double)correct + (double)close) / (double)total);
     }
 }

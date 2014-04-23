@@ -1,4 +1,4 @@
-public enum Gender implements Attribute {
+public enum Gender implements Attributable {
     MALE,
     FEMALE
 }
