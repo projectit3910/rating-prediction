@@ -179,4 +179,7 @@ public class DecisionTree {
     private double log2(double n) {
         return Math.log(n) / Math.log(2);
     }
+	public Node getRoot(){
+    	return tree;
+    }
 }
