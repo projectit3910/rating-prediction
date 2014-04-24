@@ -16,9 +16,12 @@ public class Parser {
     }
     
     // Parses data by reading CSV lines and finding the proper enum values
-    public List<Data> run(int amount) throws Exception {
+    public List<Data> run(int amount, int offset) throws Exception {
         List<Data> data = new ArrayList<Data>();
         
+        for(int i = 0 ; i < offset; i++)
+        	br.readLine();
+
         String line = br.readLine();
         for (int c = 0; line != null && c < amount; c++) {
             String[] split = line.split(",");
