@@ -37,7 +37,8 @@ age_dict = {
 }
 
 class User:
-    def __init__(self, gender, age, occupation, zipcode):
+    def __init__(self, id, gender, age, occupation, zipcode):
+        self.id = id
         self.gender = gender
         self.age = age
         self.occupation = occupation
@@ -66,7 +67,7 @@ with open('users.dat') as f:
         age = fields[2]
         occupation = fields[3]
         zipcode = fields[4]
-        users[id] = User(gender, age, occupation, zipcode)
+        users[id] = User(id, gender, age, occupation, zipcode)
 
 with open('movies.dat') as f:
     for line in f.readlines():
@@ -93,6 +94,7 @@ for rating in ratings:
             str(gender_dict[user.gender]),
             str(age_dict[user.age]),
             user.occupation,
-            str(rating.rating - 1)
+            str(rating.rating - 1),
+            str(user.id)
         ])
         print line

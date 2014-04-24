@@ -1,5 +1,6 @@
 import java.util.List;
 import java.util.ArrayList;
+import java.lang.Math;
 
 public class DecisionTree {
     private List<Data> examples;
@@ -139,6 +140,43 @@ public class DecisionTree {
     
     // Calculate information gain for an attribute
     private double importance(Attribute attribute, List<Data> examples) {
-        return 0;
+        double e = entropy(examples);
+        
+        List<List<Data>> attributePartitions = new ArrayList<List<Data>>();
+        for (int i = 0; i < attribute.values.length; i++) {
+            attributePartitions.add(new ArrayList<Data>());
+        }
+        for (Data example : examples) {
+            attributePartitions.get(example.attributes[attribute.ordinal()]
+                .ordinal()).add(example);
+        }
+        
+        double remainder = 0;
+        for (List<Data> partition : attributePartitions) {
+            remainder += ((double)partition.size() / (double)examples.size())
+                * entropy(partition);
+        }
+        
+        return e - remainder;
+    }
+    
+    private double entropy(List<Data> examples) {
+        int[] ratingSplit = new int[ratings.length];
+        for (Data example : examples) {
+            ratingSplit[example.rating.ordinal()] += 1;
+        }
+        
+        double e = 0;
+        for (int i = 0; i < ratingSplit.length; i++) {
+            double p = (double)ratingSplit[i] / (double)examples.size();
+            e += p * log2(p);
+        }
+        e *= -1;
+        
+        return e;
+    }
+    
+    private double log2(double n) {
+        return Math.log(n) / Math.log(2);
     }
 }

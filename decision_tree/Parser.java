@@ -31,7 +31,8 @@ public class Parser {
                 genders[indices[1]],
                 ages[indices[2]],
                 occupations[indices[3]],
-                ratings[indices[4]]
+                ratings[indices[4]],
+                Integer.parseInt(split[5])
             ));
             line = br.readLine();
         }
