@@ -39,7 +39,7 @@ public class HashMapp {
 					String row = key + ""; 
 					for (Integer[] rows : Map.get(key)) {
 						for (Integer columns : rows) {
-							row += " " + col;
+							row += " " + column;
 						}
 					}
 					System.out.println(row);
