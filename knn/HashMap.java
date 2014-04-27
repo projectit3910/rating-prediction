@@ -1,21 +1,21 @@
-import java.io.BufferedReader;
 import java.io.FileNotFoundException;
+import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-public class HashMapp {
+public class HashMap {
 	public static void main(String[] args) throws FileNotFoundException {
 
 		String currline;
 		HashMap<Integer, ArrayList<Integer[]>> Map = new HashMap<Integer, ArrayList<Integer[]>>();
-		BufferedReader br = new BufferedReader(new FileReader("file.txt"));
+		BufferedReader br = new BufferedReader(new FileReader("data/train.csv"));
 		try
 		{
 			while ((currline = br.readLine()) != null) {
 
-				String[] col = currline.split(" ");
+				String[] col = currline.split(",");
 
 				if (col.length < 1) {
 				}
@@ -36,7 +36,7 @@ public class HashMapp {
 				} catch (NumberFormatException e) {
 				}
 				for (Integer key : Map.keySet()) {
-					String row = key + ""; 
+					String row = key + "";
 					for (Integer[] rows : Map.get(key)) {
 						for (Integer columns : rows) {
 							row += " " + column;
@@ -46,7 +46,7 @@ public class HashMapp {
 				}
 			}
 
-		}	
+		}
 		catch (IOException e) {
 			e.printStackTrace();
 		}
