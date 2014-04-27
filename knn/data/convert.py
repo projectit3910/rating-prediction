@@ -51,8 +51,6 @@ with open(sys.argv[1]) as f:
             title = fields[9]
             genre = str(genre_dict[genre])
             line = ','.join([
-                str(user_id),
-                str(movie_id),
                 str(rating),
                 str(gender),
                 str(age),
