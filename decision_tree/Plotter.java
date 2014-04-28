@@ -20,7 +20,8 @@ public class Plotter {
         }
         
         // Y-axis is correct predictions over testing set size (1,000,000)
-        double[] y = new double[x.length];
+        double[] y1 = new double[x.length];
+        double[] y2 = new double[x.length];
         
         // All (almost) examples shuffled randomly
         List<Data> examples = parser.run(2000000, 0);
@@ -41,20 +42,31 @@ public class Plotter {
             DecisionTree dt = new DecisionTree(trainingSet);
             dt.learn();
             int correct = 0;
+            int close = 0;
             for (Data data : testingSet) {
-                if (dt.predict(data) == data.rating) {
+                int prediction = dt.predict(data).ordinal();
+                int actual = data.rating.ordinal();
+                if (prediction == actual) {
                     correct++;
                 }
+                if (prediction == actual ||
+                    prediction == (actual-1) ||
+                    prediction == (actual+1)) {
+                    
+                    close++;
+                }
             }
-            y[i] = (double)correct / (double)testingSet.size();
+            y1[i] = (double)correct / (double)testingSet.size();
+            y2[i] = (double)close / (double)testingSet.size();
         }
         
         // Plot the data
         Plot2DPanel plot = new Plot2DPanel();
         String title = "Prediction accuracy vs. size of training set using decision tree learning";
-        plot.addLinePlot(title, x, y);
-        plot.setAxisLabels("Size of training set",
-            "Prediction accuracy (Correct predictions / total predictions)");
+        plot.addLegend("SOUTH");
+        plot.addLinePlot("Error margin of 0", x, y1);
+        plot.addLinePlot("Error margin of 1", x, y2);
+        plot.setAxisLabels("Size of training set", "Prediction accuracy");
         plot.getAxis(0).setLabelPosition(0.5, -0.15);
         plot.getAxis(0).setLabelFont(new Font("Arial", Font.PLAIN, 14));
         plot.getAxis(1).setLabelPosition(-0.15, 0.5);
