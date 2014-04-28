@@ -9,8 +9,17 @@ import java.awt.Font;
 
 public class Plotter {
     public static void main(String[] args) throws Exception {
+        
+        // All (almost) examples shuffled randomly
+        List<Data> examples = new Parser(new InputStreamReader(System.in))
+            .run(2000000, 0);
+        Collections.shuffle(examples, new Random(0));
+        
+        plot1(examples);
+        plot2(examples);
+    }
     
-        Parser parser = new Parser(new InputStreamReader(System.in));
+    private static void plot1(List<Data> examples) {
         
         // X-axis is training set size
         int interval = 50000;
@@ -20,12 +29,7 @@ public class Plotter {
         }
         
         // Y-axis is correct predictions over testing set size (1,000,000)
-        double[] y1 = new double[x.length];
-        double[] y2 = new double[x.length];
-        
-        // All (almost) examples shuffled randomly
-        List<Data> examples = parser.run(2000000, 0);
-        Collections.shuffle(examples, new Random(0));
+        double[] y = new double[x.length];
         
         // Testing set used to calculate each accuracy ratio
         List<Data> testingSet = new ArrayList<Data>();
@@ -42,30 +46,20 @@ public class Plotter {
             DecisionTree dt = new DecisionTree(trainingSet);
             dt.learn();
             int correct = 0;
-            int close = 0;
             for (Data data : testingSet) {
                 int prediction = dt.predict(data).ordinal();
                 int actual = data.rating.ordinal();
                 if (prediction == actual) {
                     correct++;
                 }
-                if (prediction == actual ||
-                    prediction == (actual-1) ||
-                    prediction == (actual+1)) {
-                    
-                    close++;
-                }
             }
-            y1[i] = (double)correct / (double)testingSet.size();
-            y2[i] = (double)close / (double)testingSet.size();
+            y[i] = (double)correct / (double)testingSet.size();
         }
         
         // Plot the data
         Plot2DPanel plot = new Plot2DPanel();
         String title = "Prediction accuracy vs. size of training set using decision tree learning";
-        plot.addLegend("SOUTH");
-        plot.addLinePlot("Error margin of 0", x, y1);
-        plot.addLinePlot("Error margin of 1", x, y2);
+        plot.addLinePlot(title, x, y);
         plot.setAxisLabels("Size of training set", "Prediction accuracy");
         plot.getAxis(0).setLabelPosition(0.5, -0.15);
         plot.getAxis(0).setLabelFont(new Font("Arial", Font.PLAIN, 14));
@@ -80,5 +74,30 @@ public class Plotter {
         frame.setSize(800, 600);
         frame.setContentPane(plot);
         frame.setVisible(true);
+    }
+    
+    private static void plot2(List<Data> examples) {
+    
+        // Bar plot
+        DecisionTree dt = new DecisionTree(examples);
+        dt.learn();
+        
+        double[] ratingSums = new double[Occupation.values().length];
+        for (int i = 0; i < ratingSums.length; i++) {
+            ratingSums[i] = 0;
+        }
+        for (Gender gender : Gender.values()) {
+            for (Age age : Age.values()) {
+                for (Occupation occupation : Occupation.values()) {
+                    int prediction = dt.predict(new Data(Genre.HORROR, gender, age, occupation, null, 0)).ordinal();
+                    ratingSums[occupation.ordinal()] += prediction;
+                }
+            }
+        }
+        for (int i = 0; i < ratingSums.length; i++) {
+            System.out.print(Occupation.values()[i]);
+            System.out.print(" ");
+            System.out.println(ratingSums[i]);
+        }
     }
 }
