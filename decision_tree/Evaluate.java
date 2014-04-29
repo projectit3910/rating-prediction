@@ -1,6 +1,5 @@
 import java.util.List;
 
-
 public class Evaluate {
 
 	private Node tree;
@@ -33,6 +32,10 @@ public class Evaluate {
 			if(Math.round(personalRating) == d.rating.ordinal() ){
 				correct++;
 			}
+            
+            System.out.println("Prediction: " +
+                Integer.toString((int)Math.round(personalRating) + 1) +
+                "; Actual: " + Integer.toString(d.rating.ordinal() + 1));
 		}
 		err = err/counter;
 		System.out.println((double)correct/counter);

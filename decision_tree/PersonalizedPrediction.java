@@ -2,7 +2,7 @@ import java.io.File;
 import java.io.FileReader;
 import java.util.List;
 
-public class RatingPrediction {
+public class PersonalizedPrediction {
     public static void main(String[] args) throws Exception {
     
         Parser parser = new Parser(new FileReader(new File("data_set/data")));
@@ -12,12 +12,8 @@ public class RatingPrediction {
         DecisionTree dt = new DecisionTree(trainingExamples);
         dt.learn();
         
-        for (Data example : testingExamples) {
-            int prediction = dt.predict(example).ordinal() + 1;
-            int actual = example.rating.ordinal() + 1;
-            
-            System.out.println("Prediction: " + Integer.toString(prediction) +
-                "; Actual: " + Integer.toString(actual));
-        }
+        Node n = dt.getRoot();
+        Evaluate g = new Evaluate(n, testingExamples);
+        g.guessRating();
     }
 }

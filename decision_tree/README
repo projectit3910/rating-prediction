@@ -1,4 +1,6 @@
-javac *.java          <- Compile everything
-java RatingPrediction <- Show rating predictions
-java PrintTree        <- Show the decision tree (it is very large)
-java Plotter          <- Show plot data (part of this requires a GUI)
+javac *.java                <- Compile everything
+java RatingPrediction       <- Show rating predictions
+java PrintTree              <- Show the decision tree (it is very large)
+java Plotter                <- Show plot data (part of this requires a GUI)
+java PersonalizedPrediction <- Show rating predictions using user specific
+                               weights
