@@ -5,6 +5,7 @@ public class Evaluate {
 
 	private Node tree;
 	private List<Data> testing;
+	Personalize pRating = new Personalize();
 	
 	public Evaluate(Node tree, List<Data> testing){
 		this.testing = testing;
@@ -12,24 +13,29 @@ public class Evaluate {
 	}
 	
 	public void guessRating(){
-		System.out.println("ENTER");
 		Node ptr = tree;
 		double err = 0;
 		double itd = 0;
+		double personalRating = 0;
+		int counter = 0;
+		int correct = 0;
+		
 		for(Data d : testing){
+			counter++;
 			tree = ptr;
-
+			
 			while(!tree.isClassification()){
 				searchTree(d);
 			}
-
-			System.out.println("Estimated: "+tree.classification.ordinal()+ " Observed: "+d.rating.ordinal());
-			itd = (tree.classification.ordinal()-d.rating.ordinal())*(tree.classification.ordinal()-d.rating.ordinal());
+			personalRating = pRating.rate(d, tree.classification.ordinal());
+			itd = (Math.round(personalRating)-d.rating.ordinal())*(Math.round(personalRating)-d.rating.ordinal());
 			err = err + itd;
+			if(Math.round(personalRating) == d.rating.ordinal() ){
+				correct++;
+			}
 		}
-		err = err/testing.size();
-		System.out.println("Squared Error: "+err);
-
+		err = err/counter;
+		System.out.println((double)correct/counter);
 	}
 	
 	private void searchTree(Data d){
