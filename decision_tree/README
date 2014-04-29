@@ -1,4 +1,4 @@
-RatingPrediction.java contains the main method.
+To compile: javac *.java
 
-Compile with: javac RatingPrediction.java
-Run with: java RatingPrediction < data_set/data
+To run the main program: java RatingPrediction
+To generate plot data: java Plotter < data_set/data
