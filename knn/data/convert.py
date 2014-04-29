@@ -1,5 +1,7 @@
 import csv
 import sys
+import os
+
 genre_dict = {
     "Action" : 0,
     "Adventure" : 1,
@@ -37,24 +39,41 @@ age_dict = {
 }
 
 #,user_id,movie_id,rating,timestamp,gender,age,occupation,zip,title,genres,for_testing
-with open(sys.argv[1]) as f:
-    for fields in csv.reader(f):
-        for genre in fields[10].split('|'):
-            user_id = int(fields[1])
-            movie_id = int(fields[2])
-            rating = int(fields[3])
-            # skip fields[3] timestamp
-            gender = gender_dict[fields[5]]
-            age = fields[6]
-            occupation = fields[7]
-            # skip fields[8] zip
-            title = fields[9]
-            genre = str(genre_dict[genre])
-            line = ','.join([
-                str(rating),
-                str(gender),
-                str(age),
-                str(occupation),
-                str(genre)
-            ])
-            print line
+def convert_csv(in_file, out_file):
+    o = open(out_file, 'w')
+    count = -1
+    with open(in_file) as f:
+        for fields in csv.reader(f):
+            count += 1
+            if count == 0: continue
+            for genre in fields[10].split('|'):
+                user_id = int(fields[1])
+                movie_id = int(fields[2])
+                rating = int(fields[3])
+                # skip fields[3] timestamp
+                gender = gender_dict[fields[5]]
+                age = fields[6]
+                occupation = fields[7]
+                # skip fields[8] zip
+                title = fields[9]
+                genre = str(genre_dict[genre])
+                line = ','.join([
+                    str(rating),
+                    str(gender),
+                    str(age),
+                    str(occupation),
+                    str(genre)
+                ])
+                o.write(line + "\n")
+
+try:
+    os.remove("test.csv")
+except OSError:
+    pass
+try:
+    os.remove("train.csv")
+except OSError:
+    pass
+
+convert_csv("movielens_test.csv", "test.csv")
+convert_csv("movielens_train.csv", "train.csv")
