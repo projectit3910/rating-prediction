@@ -6,13 +6,15 @@ import javax.swing.JFrame;
 import org.math.plot.plotObjects.*;
 import java.awt.Color;
 import java.awt.Font;
+import java.io.File;
+import java.io.FileReader;
 
 public class Plotter {
     public static void main(String[] args) throws Exception {
         
         // All (almost) examples shuffled randomly
-        List<Data> examples = new Parser(new InputStreamReader(System.in))
-            .run(2000000, 0);
+        List<Data> examples = new Parser(new FileReader(
+            new File("data_set/data"))).run(2000000, 0);
         Collections.shuffle(examples, new Random(0));
         
         plot1(examples);

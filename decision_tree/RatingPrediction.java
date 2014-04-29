@@ -1,7 +1,5 @@
 import java.io.File;
 import java.io.FileReader;
-import java.io.InputStreamReader;
-import java.lang.System;
 import java.util.List;
 
 public class RatingPrediction {
@@ -17,7 +15,5 @@ public class RatingPrediction {
         
         Evaluate g = new Evaluate(n, testingExamples);
         g.guessRating();
-        
-        
     }
 }

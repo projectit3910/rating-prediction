@@ -1,4 +1,4 @@
-To compile: javac *.java
-
-To run the main program: java RatingPrediction
-To generate plot data: java Plotter < data_set/data
+javac *.java          <- Compile everything
+java RatingPrediction <- Show rating predictions
+java PrintTree        <- Show the decision tree (it is very large)
+java Plotter          <- Show plot data (part of this requires a GUI)
